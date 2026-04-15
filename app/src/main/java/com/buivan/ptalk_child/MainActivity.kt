@@ -47,6 +47,32 @@ class MainActivity : AppCompatActivity() {
         setupButtons()
         characterAnimator.playIdle()
         checkServerHealth()             // ← kiểm tra server khi mở app
+        
+        showIntroAnimation()
+    }
+
+    // ─── Intro Animation ────────────────────────────────────────────────
+    private fun showIntroAnimation() {
+        binding.layoutIntro.visibility = View.VISIBLE
+        binding.ivIntroLogo.alpha = 0f
+        
+        // 1. Fade in logo
+        binding.ivIntroLogo.animate()
+            .alpha(1f)
+            .setDuration(1500)
+            .withEndAction {
+                // 2. Wait 1s then fade out the whole overlay
+                binding.layoutIntro.postDelayed({
+                    binding.layoutIntro.animate()
+                        .alpha(0f)
+                        .setDuration(800)
+                        .withEndAction {
+                            binding.layoutIntro.visibility = View.GONE
+                        }
+                        .start()
+                }, 1000)
+            }
+            .start()
     }
 
     // ─── Kiểm tra server khi khởi động ───────────────────────────────────
